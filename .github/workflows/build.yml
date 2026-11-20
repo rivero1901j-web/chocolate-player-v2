@@ -29,6 +29,10 @@ jobs:
           cp www/index.html app/src/main/assets/index.html
           mkdir -p app/src/main/java/com/chocolate/player
 
+          cat << 'EOF' > gradle.properties
+          android.useAndroidX=true
+          EOF
+
           cat << 'EOF' > settings.gradle
           pluginManagement {
               repositories {
