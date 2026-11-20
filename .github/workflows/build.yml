@@ -23,11 +23,38 @@ jobs:
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
-      - name: Generate Native Android Wrapper with USB MIDI
+      - name: Generate Native Android Wrapper with USB MIDI & Icon
         run: |
           mkdir -p app/src/main/assets
           cp www/index.html app/src/main/assets/index.html
           mkdir -p app/src/main/java/com/chocolate/player
+          mkdir -p app/src/main/res/drawable
+
+          cat << 'EOF' > app/src/main/res/drawable/ic_launcher.xml
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp"
+              android:height="108dp"
+              android:viewportWidth="108"
+              android:viewportHeight="108">
+              <!-- Fondo oscuro redondeado -->
+              <path
+                  android:fillColor="#181818"
+                  android:pathData="M0,0h108v108h-108z" />
+              <!-- Marco tipo pedalera -->
+              <path
+                  android:fillColor="#263238"
+                  android:pathData="M22,30 h64 a6,6 0 0 1 6,6 v36 a6,6 0 0 1 -6,6 h-64 a6,6 0 0 1 -6,-6 v-36 a6,6 0 0 1 6,-6 z" />
+              <!-- 4 switches superiores (A B C D) -->
+              <path android:fillColor="#90A4AE" android:pathData="M28,38 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+              <path android:fillColor="#90A4AE" android:pathData="M45,38 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+              <path android:fillColor="#69F0AE" android:pathData="M63,38 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+              <path android:fillColor="#FF8A80" android:pathData="M80,38 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+              <!-- Triángulo Play central verde neón -->
+              <path
+                  android:fillColor="#69F0AE"
+                  android:pathData="M47,48 L65,58 L47,68 Z" />
+          </vector>
+          EOF
 
           cat << 'EOF' > gradle.properties
           android.useAndroidX=true
@@ -103,6 +130,8 @@ jobs:
 
               <application
                   android:allowBackup="true"
+                  android:icon="@drawable/ic_launcher"
+                  android:roundIcon="@drawable/ic_launcher"
                   android:label="Chocolate Player"
                   android:supportsRtl="true"
                   android:theme="@style/Theme.AppCompat.NoActionBar">
